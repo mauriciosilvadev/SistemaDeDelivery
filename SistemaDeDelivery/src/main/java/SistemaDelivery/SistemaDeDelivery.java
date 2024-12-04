@@ -3,6 +3,9 @@
  */
 package SistemaDelivery;
 
+import SistemaDelivery.Log.DBLog;
+import SistemaDelivery.Log.JSONLog;
+import SistemaDelivery.Log.XMLLog;
 import SistemaDelivery.Models.Cliente;
 import SistemaDelivery.Models.Item;
 import SistemaDelivery.Models.Pedido;
