@@ -5,6 +5,10 @@
 package SistemaDelivery;
 
 import SistemaDelivery.Interfaces.ILog;
+import SistemaDelivery.Models.Pedido;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.json.JSONObject;
 
 /**
  *
@@ -13,8 +17,25 @@ import SistemaDelivery.Interfaces.ILog;
 public class JSONLog implements ILog {
 
     @Override
-    public void escrever(String mensagem) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void escrever(Pedido pedido) {
+        JSONObject json = new JSONObject();
+
+        json.put("usuario", pedido.getCliente().getNome());
+        json.put("data", pedido.getDataPedido().toLocalDate().toString());
+        json.put("hora", pedido.getDataPedido().toLocalTime().toString());
+        json.put("codigo_pedido", pedido.getCodigoPedido());
+        json.put("cliente", pedido.getCliente().getNome());
+
+        try {
+            FileWriter writeFile = new FileWriter("pedido_log.json");
+
+            writeFile.write(json.toString());
+            writeFile.close();
+        } catch (IOException e) {
+            System.out.println("Houve um erro ao escrever no arquivo json: " + e.toString());
+        }
+
+        System.out.println(json);
     }
-    
+
 }

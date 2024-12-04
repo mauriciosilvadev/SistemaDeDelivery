@@ -4,10 +4,12 @@
  */
 package SistemaDelivery.Interfaces;
 
+import SistemaDelivery.Models.Pedido;
+
 /**
  *
  * @author Morrice
  */
 public interface ILog {
-    public void escrever (String mensagem);
+    public void escrever (Pedido pedido);
 }

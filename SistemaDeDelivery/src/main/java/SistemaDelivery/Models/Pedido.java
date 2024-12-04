@@ -5,10 +5,12 @@
 package SistemaDelivery.Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  *
@@ -20,11 +22,12 @@ public class Pedido {
     private final List<Item> itens = new ArrayList<>();
     private final List<CupomDescontoEntrega> cuponsAplicados = new ArrayList<>();
     private final Map<String, Double> codigosDeDescontoManuais;
-    private LocalDate dataPedido;
-    private String codigoDeCupom; 
+    private LocalDateTime dataPedido;
+    private String codigoDeCupom;
+    private Integer codigoPedido;
     
     
-    public Pedido(Cliente cliente, double taxaEntrega, LocalDate dataPedido) {
+    public Pedido(Cliente cliente, double taxaEntrega, LocalDateTime dataPedido) {
         if (taxaEntrega < 0  || dataPedido == null  || cliente == null) {
             throw new IllegalArgumentException("Valores inválidos para criar o pedido.");
         }
@@ -38,6 +41,13 @@ public class Pedido {
         this.codigosDeDescontoManuais.put("DESC10", 0.1);
         this.codigosDeDescontoManuais.put("DESC20", 0.2);
         this.codigosDeDescontoManuais.put("DESC30", 0.3);
+        
+        Random random = new Random();
+        this.codigoPedido = random.nextInt(100000000);
+    }
+    
+    public Integer getCodigoPedido() {
+        return codigoPedido;
     }
     
     public void adicionarItem(Item item) {
@@ -82,7 +92,7 @@ public class Pedido {
         return itens;
     }
     
-    public LocalDate getDataPedido() {
+    public LocalDateTime getDataPedido() {
         return dataPedido;
     }
     

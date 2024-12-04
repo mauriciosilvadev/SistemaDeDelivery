@@ -4,11 +4,12 @@
 
 package SistemaDelivery;
 
+import SistemaDelivery.Interfaces.ILog;
 import SistemaDelivery.Models.Cliente;
 import SistemaDelivery.Models.Item;
 import SistemaDelivery.Models.Pedido;
 import SistemaDelivery.Services.CalculadoraDescontoService;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -18,7 +19,7 @@ public class SistemaDeDelivery {
 
     public static void main(String[] args) {
         
-        Cliente cliente = new Cliente("Mauricio", "Ouro", 1, "Rua marechal floriano", "Centro", "Alegre");
+        Cliente cliente = new Cliente("Jao", "Ouro", 1, "Rua marechal floriano", "Centro", "Alegre");
         Item item1 = new Item("Maca", 2, 100, "Alimentação");        
         Item item2 = new Item("Banana", 1, 2, "Alimentação");
         // Item item3 = new Item("Banana", 1, 2, "Educação");
@@ -26,7 +27,7 @@ public class SistemaDeDelivery {
         // Item item5 = new Item("Banana", 1, 2, "Educação");
 
         
-        Pedido pedido = new Pedido(cliente, 10, LocalDate.MIN);
+        Pedido pedido = new Pedido(cliente, 10, LocalDateTime.now());
         
         pedido.adicionarItem(item1);
         pedido.adicionarItem(item2);
@@ -39,6 +40,14 @@ public class SistemaDeDelivery {
         CalculadoraDescontoService calculadora = new CalculadoraDescontoService();
         
         calculadora.calcularDesconto(pedido);
+        
+        ILog DBlog = new DBLog();
+        ILog JSONLog = new JSONLog();
+        ILog XMLLog = new XMLLog();
+        
+        DBlog.escrever(pedido);
+        JSONLog.escrever(pedido);
+        XMLLog.escrever(pedido);
         
         System.out.println(pedido.toString());
         
