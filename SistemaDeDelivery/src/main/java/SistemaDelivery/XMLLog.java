@@ -6,7 +6,7 @@ package SistemaDelivery;
 
 import SistemaDelivery.Interfaces.ILog;
 import SistemaDelivery.Models.Pedido;
-import java.io.IOException;
+import SistemaDelivery.Services.UsuarioLogadoService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,11 +14,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document; 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -39,7 +38,7 @@ public class XMLLog implements ILog {
             document.appendChild(root);
 
             Element book1 = document.createElement("usuario");
-            book1.appendChild(document.createTextNode(pedido.getCliente().getNome()));
+            book1.appendChild(document.createTextNode(UsuarioLogadoService.getNomeUsuario()));
             Element book2 = document.createElement("data");
             book2.appendChild(document.createTextNode(pedido.getDataPedido().toLocalDate().toString()));
             Element book3 = document.createElement("hora");
@@ -60,8 +59,7 @@ public class XMLLog implements ILog {
 
             StreamResult result = new StreamResult("pedido_log.xml");
             transformer.transform(source, result);
-            
-            
+
         } catch (ParserConfigurationException | TransformerException ex) {
             Logger.getLogger(XMLLog.class.getName()).log(Level.SEVERE, null, ex);
         }

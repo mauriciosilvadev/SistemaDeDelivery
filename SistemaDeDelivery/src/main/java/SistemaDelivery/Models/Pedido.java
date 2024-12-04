@@ -17,6 +17,7 @@ import java.util.Random;
  * @author Morrice
  */
 public class Pedido {
+
     private double taxaEntrega;
     private Cliente cliente;
     private final List<Item> itens = new ArrayList<>();
@@ -25,97 +26,111 @@ public class Pedido {
     private LocalDateTime dataPedido;
     private String codigoDeCupom;
     private Integer codigoPedido;
-    
-    
+    private double valorTotal = 0;
+
     public Pedido(Cliente cliente, double taxaEntrega, LocalDateTime dataPedido) {
-        if (taxaEntrega < 0  || dataPedido == null  || cliente == null) {
+        if (taxaEntrega < 0 || dataPedido == null || cliente == null) {
             throw new IllegalArgumentException("Valores inválidos para criar o pedido.");
         }
-        
+
         this.cliente = cliente;
         this.taxaEntrega = taxaEntrega;
         this.dataPedido = dataPedido;
-        
+
         this.codigosDeDescontoManuais = new HashMap<>();
-        
+
         this.codigosDeDescontoManuais.put("DESC10", 0.1);
         this.codigosDeDescontoManuais.put("DESC20", 0.2);
         this.codigosDeDescontoManuais.put("DESC30", 0.3);
-        
+
         Random random = new Random();
         this.codigoPedido = random.nextInt(100000000);
     }
-    
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public double getValorPedido() {
+        double valor = 0;
+
+        for (Item item : itens) {
+            valor += item.getValorTotal();
+        }
+
+        return valor;
+    }
+
     public Integer getCodigoPedido() {
         return codigoPedido;
     }
-    
+
     public void adicionarItem(Item item) {
         itens.add(item);
     }
-    
+
     public void setCodigoDeCupom(String codigo) {
         this.codigoDeCupom = codigo;
     }
-    
+
     public String getCodigoDeCupom() {
         return codigoDeCupom;
     }
-    
+
     public Map<String, Double> getCodigosDeDescontoManuais() {
         return codigosDeDescontoManuais;
     }
-    
+
     public void adicionarCupom(CupomDescontoEntrega cupom) {
         cuponsAplicados.add(cupom);
     }
-    
+
     public List<CupomDescontoEntrega> getCuponsAplicados() {
         return cuponsAplicados;
     }
-    
-    public double getValorPedido() {
-        double valorTotal = 0;
-        
-        for (Item item: itens) {
-            valorTotal += item.getValorTotal();
-        }
-        
-        return valorTotal + taxaEntrega;
-    }
-    
+
     public Cliente getCliente() {
         return cliente;
     }
-    
+
     public List<Item> getItens() {
         return itens;
     }
-    
+
     public LocalDateTime getDataPedido() {
         return dataPedido;
     }
-    
+
     public double getTaxaEntrega() {
         return taxaEntrega;
     }
-    
+
     public double getDescontoConcedido() {
         double totalDesconto = 0;
-        
-        for (CupomDescontoEntrega cupom: cuponsAplicados) {
+
+        for (CupomDescontoEntrega cupom : cuponsAplicados) {
             totalDesconto += cupom.getValorDesconto();
         }
-        
+
         return totalDesconto;
     }
-    
+
     public void setTaxaEntrega(double novaTaxa) {
         this.taxaEntrega = novaTaxa;
     }
-    
+
     @Override
     public String toString() {
-        return "Pedido{" + "taxaEntrega=" + taxaEntrega + ", cliente=" + cliente.getNome() + ", itens=" + itens + ", desconto concedido: " + getDescontoConcedido() * 100 + "%, cupons aplicados: " + cuponsAplicados + '}';
+        return "Pedido {\n " + "taxaEntrega:  " + taxaEntrega
+                + ",\n cliente:  " + cliente.getNome()
+                + ",\n itens: " + itens
+                + ",\n desconto concedido: " + getDescontoConcedido() * 100
+                + "%,\n cupons aplicados: " + cuponsAplicados
+                + ",\n valor total pedido: " + getValorTotal()
+                + "\n}";
     }
 }

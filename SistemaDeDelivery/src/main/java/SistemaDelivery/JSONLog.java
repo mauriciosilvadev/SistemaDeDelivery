@@ -6,6 +6,7 @@ package SistemaDelivery;
 
 import SistemaDelivery.Interfaces.ILog;
 import SistemaDelivery.Models.Pedido;
+import SistemaDelivery.Services.UsuarioLogadoService;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.json.JSONObject;
@@ -20,7 +21,7 @@ public class JSONLog implements ILog {
     public void escrever(Pedido pedido) {
         JSONObject json = new JSONObject();
 
-        json.put("usuario", pedido.getCliente().getNome());
+        json.put("usuario", UsuarioLogadoService.getNomeUsuario());
         json.put("data", pedido.getDataPedido().toLocalDate().toString());
         json.put("hora", pedido.getDataPedido().toLocalTime().toString());
         json.put("codigo_pedido", pedido.getCodigoPedido());

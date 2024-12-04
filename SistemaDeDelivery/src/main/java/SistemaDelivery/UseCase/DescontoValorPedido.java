@@ -7,17 +7,14 @@ package SistemaDelivery.UseCase;
 import SistemaDelivery.Enums.TipoCupom;
 import SistemaDelivery.Interfaces.IDescontoTaxaEntrega;
 import SistemaDelivery.Models.CupomDescontoEntrega;
-import SistemaDelivery.Models.Item;
 import SistemaDelivery.Models.Pedido;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
  * @author Morrice
  */
-public class DescontoValorPedido implements IDescontoTaxaEntrega{
-    
+public class DescontoValorPedido implements IDescontoTaxaEntrega {
+
     private final double VALOR_DESCONTO = 0.15;
 
     public DescontoValorPedido() {
