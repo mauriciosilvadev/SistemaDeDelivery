@@ -26,7 +26,7 @@ public class SistemaDeDelivery {
         pedido.adicionarItem(item1);
         pedido.adicionarItem(item2);
 
-        pedido.setCodigoDeCupom("DESC30");
+        pedido.setCodigoDeCupom("DESC10");
 
         // Log com SQLite
         PedidoService calculadora = new PedidoService(new DBLog());
